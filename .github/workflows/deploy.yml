@@ -13,8 +13,8 @@ jobs:
   test:
     env:
       MONGODB_CLUSTER_ADDRESS: cluster0.hwwcucj.mongodb.net
-      MONGODB_USERNAME: aymangharib545
-      MONGODB_PASSWORD: fLcwSSGQtaK5OYtQ
+      MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
+      MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
       PORT: 8080
     environment: testing
     runs-on: ubuntu-latest
@@ -24,11 +24,13 @@ jobs:
 
       - name: Cache dependencies
         uses: actions/cache@v3
+        id : cache
         with:
-          path: ~/.npm
+          path: node_modules
           key: npm-deps-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
+        if : steps.cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Run server
@@ -36,9 +38,11 @@ jobs:
 
       - name: Run tests
         run: npm test
+        id: test
 
       - name: Output information
-        run: echo "MONGODB_USERNAME:" " ${{ env.MONGODB_USERNAME }}"
+        if : failure() && steps.test.outcome == 'failure'
+        run: echo "MONGODB_USERNAME:  ${{ env.MONGODB_USERNAME }}"
 
   deploy:
     needs: test
@@ -46,3 +50,12 @@ jobs:
     steps:
       - name: Output information
         run: echo "Deploying after successful test ✅"
+  report: 
+    needs : [test ,  deploy]
+    if : failure()
+    runs-on: ubuntu-latest
+    steps:
+    - name : report errot
+      run : |  
+              echo "job failed"
+              echo "{{ github }}"

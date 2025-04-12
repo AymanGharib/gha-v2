@@ -1,3 +1,13 @@
 aymangharib545
 fLcwSSGQtaK5OYtQ
 105.158.184.27
+
+
+
+
+
+
+
+Étudiant en ingénierie, passionné par le cloud computing et les pratiques DevOps, je me spécialise dans la conception et la gestion d’infrastructures modernes, automatisées et scalables.
+Je possède des compétences solides en AWS, Terraform, Docker, Kubernetes et les pipelines CI/CD, appuyées par des certifications officielles.
+Je suis actuellement à la recherche d’un stage d’été en DevOps cloud pour mettre en œuvre mes connaissances dans des projets concrets et à fort impact.
