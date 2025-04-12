@@ -42,7 +42,7 @@ jobs:
 
       - name: Output information
         if : failure() && steps.test.outcome == 'failure'
-        run: echo "MONGODB_USERNAME:  ${{ env.MONGODB_USERNAME }}"
+        run: echo "MONGODB_USERNAME"
 
   deploy:
     needs: test
