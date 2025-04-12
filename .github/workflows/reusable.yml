@@ -1,0 +1,35 @@
+name : reusable 
+on : 
+   workflow_call:
+      inputs : 
+         artifact : 
+            required: false 
+            description : the name of the artifaact
+            type: string
+            default: artifact
+      outputs : 
+        result : 
+           description: the result of the wf
+           value : ${{ jobs.deploy.outputs.outcome}}
+             
+
+
+   
+jobs:
+  deploy : 
+   outputs:
+      outcome : ${{steps.set-result.output.step-result}}
+          
+   runs-on: ubuntu-latest
+   steps:
+     - name : get code
+       uses  : actions/downald-artifact@v3
+       with : 
+         name : ${{ inputs.artifact }}
+     - name : deploy
+       run : echo "deploying"
+     - name : set result 
+       id : set-result
+       run : echo "step-result=success" >> $GITHUB_OUTPUT
+  
+     
